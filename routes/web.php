@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admins\CompaniesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,17 +26,25 @@ use App\Http\Controllers\Admins\DashboardController;
 //     ]);
 // });
 
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return Inertia::render('Dashboard');
-//     })->name('dashboard');
-//         // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-// });
-
-Route::name('admin')->middleware(['auth:sanctum', 'verified'])->group(function (){
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+        // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/', [DashboardController::class, 'index'])->name('index');
+
+// Route::name('admin')->middleware(['auth:sanctum', 'verified'])->group(function (){
+//     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    
+// });
+// Route::prefix('companies')->name('companies.')->group(function ()
+// {
+// });
+Route::middleware(['auth:sanctum', 'verified'])->get('/company', [CompaniesController::class, 'index'])->name('company');
